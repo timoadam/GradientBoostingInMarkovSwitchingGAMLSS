@@ -12,10 +12,10 @@ x = matrix(Oil[25:1784], ncol = 1)
 y = Price[25:1784]
 
 ## Fit linear model
-LinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(100, 200), type = "MSGLMSS", conv.tol = 1e-02, max.iter = 50)
+LinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(100, 200), type = "MSGLMSS")
 
 ## Fit non-linear model
-NonLinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(1600, 200), type = "MSGAMLSS", conv.tol = 1e-02, max.iter = 50)
+NonLinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(1600, 200), type = "MSGAMLSS")
 
 ## Get colors for plotting
 pal = brewer.pal(6, "RdBu")
@@ -50,7 +50,8 @@ m2 = as.vector(predict(mod$mod[[2]], newdata = data.frame(x1 = seq(minx, maxx, l
 s1 = as.vector(exp(predict(mod$mod[[1]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$sigma))
 s2 = as.vector(exp(predict(mod$mod[[2]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$sigma))
 
-d1 = data.frame(x = x, y = y, u=seq(miny, maxy, length = 1760), v1 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[1], sd = sigmav1[1]) * sf + breaks[1],
+d1 = data.frame(x = x, y = y, u=seq(miny, maxy, length = 1760), 
+                v1 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[1], sd = sigmav1[1]) * sf + breaks[1],
                 v2 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[2], sd = sigmav1[2]) * sf + breaks[2], 
                 v3 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[3], sd = sigmav1[3]) * sf + breaks[3], 
                 v4 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[4], sd = sigmav1[4]) * sf + breaks[4],
@@ -133,14 +134,6 @@ mod = NonLinMod
 states = apply(mod$state.probs, 2, which.max)
 cols = rep(col1, 1760)
 cols[states==2] = col2
-minx = min(x)
-maxx = max(x)
-miny = min(y)
-maxy = max(y)
-breaks = seq(minx, maxx, length = 9)[-9]
-sf = 4.25 # scaling factor
-lw = 0.25 # lwd
-lw2 = 0.5
 muv1 = as.vector(predict(mod$mod[[1]], newdata = data.frame(x1 = breaks))$mu)
 muv2 = as.vector(predict(mod$mod[[2]], newdata = data.frame(x1 = breaks))$mu)
 sigmav1 = as.vector(exp(predict(mod$mod[[1]], newdata = data.frame(x1 = breaks))$sigma))
@@ -150,7 +143,8 @@ m2 = as.vector(predict(mod$mod[[2]], newdata = data.frame(x1 = seq(minx, maxx, l
 s1 = as.vector(exp(predict(mod$mod[[1]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$sigma))
 s2 = as.vector(exp(predict(mod$mod[[2]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$sigma))
 
-d1 = data.frame(x = x, y = y, u=seq(miny, maxy, length = 1760), v1 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[1], sd = sigmav1[1]) * sf + breaks[1],
+d1 = data.frame(x = x, y = y, u=seq(miny, maxy, length = 1760),
+                v1 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[1], sd = sigmav1[1]) * sf + breaks[1],
                 v2 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[2], sd = sigmav1[2]) * sf + breaks[2], 
                 v3 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[3], sd = sigmav1[3]) * sf + breaks[3], 
                 v4 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[4], sd = sigmav1[4]) * sf + breaks[4],
@@ -167,9 +161,11 @@ d1 = data.frame(x = x, y = y, u=seq(miny, maxy, length = 1760), v1 = dnorm(seq(m
                 w7 = dnorm(seq(miny, maxy, length = 1760), mean = muv2[7], sd = sigmav2[7]) * sf + breaks[7],
                 w8 = dnorm(seq(miny, maxy, length = 1760), mean = muv2[8], sd = sigmav2[8]) * sf + breaks[8])
 d2 = data.frame(x = seq(1, 1760, by = 1), y = d1$y)
-d3 = data.frame(x = seq(minx, maxx, length = 1760), y1 = as.vector(predict(mod$mod[[1]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$mu),
+d3 = data.frame(x = seq(minx, maxx, length = 1760), 
+                y1 = as.vector(predict(mod$mod[[1]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$mu),
                 y2 = as.vector(predict(mod$mod[[2]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$mu))
-d4 = data.frame(x = seq(minx, maxx, length = 1760), y1 = qnorm(p = 0.95, mean = m1, sd = s1), y4 = qnorm(p = 0.05, mean = m1, sd = s1),
+d4 = data.frame(x = seq(minx, maxx, length = 1760), 
+                y1 = qnorm(p = 0.95, mean = m1, sd = s1), y4 = qnorm(p = 0.05, mean = m1, sd = s1),
                 y7 = qnorm(p = 0.95, mean = m2, sd = s2), y10 = qnorm(p = 0.05, mean = m2, sd = s2))
 
 ## Estimated state-dependent effects
@@ -228,7 +224,6 @@ p5 <- ggplot()+
   
 ## Plot Figure 7
 p6 = grid.arrange(p4, p5, nrow = 1)
-
 
 ## Compute pseudo-residuals
 ps1 = pseudoResiduals(LinMod)
