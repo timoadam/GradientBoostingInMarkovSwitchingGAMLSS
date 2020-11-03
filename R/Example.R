@@ -1,4 +1,6 @@
 ## Load required packages
+# install.packages("MSwM")
+# install.packages("RColorBrewer")
 library(MSwM) # contains the data
 library(RColorBrewer)
 
@@ -8,8 +10,8 @@ source("ModelChecking.R")
 
 ## Load data
 data(energy)
-x = matrix(Oil[25:1784], ncol = 1)
-y = Price[25:1784]
+x = matrix(energy$Oil[25:1784], ncol = 1)
+y = energy$Price[25:1784]
 
 ## Fit linear model
 LinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(100, 200), type = "MSGLMSS")
@@ -22,24 +24,21 @@ pal = brewer.pal(6, "RdBu")
 col1 = pal[6]
 col2 = pal[1]
 
-## fig2:3
-
-scaleFUN = function(x) {
-  sprintf("%.1f", x)
-} 
-
-## fig2:6
+## Figure 6
 mod = LinMod
 states = apply(mod$state.probs, 2, which.max)
 cols = rep(col1, 1760)
 cols[states==2] = col2
+scaleFUN = function(x) {
+  sprintf("%.1f", x)
+}
 minx = min(x)
 maxx = max(x)
 miny = min(y)
 maxy = max(y)
 breaks = seq(minx, maxx, length = 9)[-9]
-sf = 4.25 # scaling factor
-lw = 0.25 # lwd
+sf = 4.25
+lw = 0.25
 lw2 = 0.5
 muv1 = as.vector(predict(mod$mod[[1]], newdata = data.frame(x1 = breaks))$mu)
 muv2 = as.vector(predict(mod$mod[[2]], newdata = data.frame(x1 = breaks))$mu)
@@ -49,7 +48,6 @@ m1 = as.vector(predict(mod$mod[[1]], newdata = data.frame(x1 = seq(minx, maxx, l
 m2 = as.vector(predict(mod$mod[[2]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$mu)
 s1 = as.vector(exp(predict(mod$mod[[1]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$sigma))
 s2 = as.vector(exp(predict(mod$mod[[2]], newdata = data.frame(x1 = seq(minx, maxx, length = 1760)))$sigma))
-
 d1 = data.frame(x = x, y = y, u=seq(miny, maxy, length = 1760), 
                 v1 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[1], sd = sigmav1[1]) * sf + breaks[1],
                 v2 = dnorm(seq(miny, maxy, length = 1760), mean = muv1[2], sd = sigmav1[2]) * sf + breaks[2], 
@@ -130,6 +128,7 @@ p2 <- ggplot()+
 ## Plot Figure 6
 grid.arrange(p1, p2, nrow = 1)
 
+## Figure 7
 mod = NonLinMod
 states = apply(mod$state.probs, 2, which.max)
 cols = rep(col1, 1760)
