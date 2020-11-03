@@ -1,5 +1,5 @@
 ## Compute the log-forward probabilities
-lforward = function(mod) {
+lForward = function(mod) {
   mus = cbind(as.vector(fitted(mod$mod[[1]])$mu), as.vector(fitted(mod$mod[[2]])$mu))
   sigmas = cbind(as.vector(fitted(mod$mod[[1]])$sigma), as.vector(fitted(mod$mod[[2]])$sigma))
   n = length(mod$y)
@@ -25,7 +25,7 @@ lforward = function(mod) {
 PseudoResiduals <- function(mod) {
   mus = cbind(as.vector(fitted(mod$mod[[1]])$mu), as.vector(fitted(mod$mod[[2]])$mu))
   sigmas = cbind(as.vector(fitted(mod$mod[[1]])$sigma), as.vector(fitted(mod$mod[[2]])$sigma))
-  la = t(lforward(mod = mod))
+  la = t(lForward(mod = mod))
   n = length(mod$y)
   Res = rep(NA, n)
   pMat = matrix(NA, nrow = n, ncol = 2)
