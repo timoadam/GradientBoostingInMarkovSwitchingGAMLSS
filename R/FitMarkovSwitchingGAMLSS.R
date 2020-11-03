@@ -93,7 +93,7 @@ FitMarkovSwitchingGAMLSS <- function(x, y, N = 2, type = "MSGAMLSS", stat = FALS
       }
       conv.crit = abs(llh - old)
       if(conv.print == TRUE) {
-        cat("Iteration = ", i, ", criterion = ", round(conv.crit, 3), "\r")
+        cat("Iteration = ", i, ", criterion = ", round(conv.crit, 3), "\r", sep = "")
       }
       if(conv.crit < conv.tol | (conv.crit < 1 & abs(conv.crit - circ.crit) < 1e-09) | i == max.iter) {
         if(i == max.iter) {
