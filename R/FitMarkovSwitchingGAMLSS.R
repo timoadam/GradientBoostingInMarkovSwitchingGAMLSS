@@ -11,7 +11,7 @@ library(gamlss)
 library(gamboostLSS)
 
 ## Function that fits Markov-switching GAMLSS using the msgamboostLSS algorithm
-FitMarkovSwitchingGAMLSS <- function(x, y, N = 2, type = "MSGAMLSS", stat = FALSE, m.stop = rep(200, 2), max.iter = 50, conv.tol = 1e-03, conv.print = TRUE) { 
+FitMarkovSwitchingGAMLSS <- function(x, y, N = 2, type = "MSGAMLSS", stat = FALSE, m.stop = rep(200, 2), max.iter = 50, conv.tol = 1e-02, conv.print = TRUE) { 
   x1 = x[, 1]
   delta = NULL
   gamma = matrix(c(0.95, 0.05, 0.05, 0.95), ncol = 2)
