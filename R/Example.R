@@ -14,7 +14,7 @@ x = matrix(energy$Oil[25:1784], ncol = 1)
 y = energy$Price[25:1784]
 
 ## Fit linear model
-LinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(100, 200), type = "MSGLMSS")
+LinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(100, 200), type = "MSGLMLSS")
 
 ## Fit non-linear model
 NonLinMod <- FitMarkovSwitchingGAMLSS(x = x, y = y, m.stop = c(1600, 200), type = "MSGAMLSS")
@@ -271,7 +271,7 @@ p9 <- ggplot(data=df3) +
   geom_line(aes(x = x, y = z), color = "black", linetype = "dashed", size = 0.5) +
   geom_line(aes(x = x, y = -z), color = "black", linetype = "dashed", size = 0.5) +
   xlab("Lag") +
-  ylab("Sample ACF") +
+  ylab("ACF") +
   scale_x_continuous(labels = scaleFUN0) +
   scale_y_continuous(labels=c("0.0", "0.2", "0.4", "0.6", "0.8", "1.0"), breaks = seq(0, 1, by = 0.2)) +
   ggtitle("Linear model") +
@@ -284,7 +284,7 @@ p10 <- ggplot(data = df4) +
   geom_line(aes(x = x, y = z), linetype = "dashed", size = 0.5) +
   geom_line(aes(x = x, y = -z), linetype = "dashed", size = 0.5) +
   xlab("Lag") +
-  ylab("Sample ACF") +
+  ylab("ACF") +
   scale_x_continuous(labels = scaleFUN0) +
   scale_y_continuous(labels = c("0.0", "0.2", "0.4", "0.6", "0.8", "1.0"), breaks = seq(0, 1, by = 0.2)) +
   ggtitle("Non-linear model")+
