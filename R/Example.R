@@ -38,8 +38,6 @@ miny = min(y)
 maxy = max(y)
 breaks = seq(minx, maxx, length = 9)[-9]
 sf = 4.25
-lw = 0.25
-lw2 = 0.5
 muv1 = as.vector(predict(mod$mod[[1]], newdata = data.frame(x1 = breaks))$mu)
 muv2 = as.vector(predict(mod$mod[[2]], newdata = data.frame(x1 = breaks))$mu)
 sigmav1 = as.vector(exp(predict(mod$mod[[1]], newdata = data.frame(x1 = breaks))$sigma))
