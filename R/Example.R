@@ -1,7 +1,13 @@
 ## Load required packages
 # install.packages("MSwM")
+# install.packages("ggplot2")
+# install.packages("grid")
+# install.packages("gridExtra")
 # install.packages("RColorBrewer")
 library(MSwM) # contains the data
+library(ggplot2)
+library(grid)
+library(gridExtra)
 library(RColorBrewer)
 
 ## Source required R scripts
