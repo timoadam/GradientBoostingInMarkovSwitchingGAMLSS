@@ -1,4 +1,9 @@
 ## Loading required packages
+# install.packages("fda")
+# install.packages("boot")
+# install.packages("numDeriv")
+# install.packages("gamlss")
+# install.packages("gamboostLSS")
 library(fda)
 library(boot)
 library(numDeriv)
@@ -90,7 +95,7 @@ FitMarkovSwitchingGAMLSS <- function(x, y, N = 2, type = "MSGAMLSS", stat = FALS
       if(conv.print == TRUE) {
         cat("Iteration = ", i, ", criterion = ", round(conv.crit, 3), "\r")
       }
-      if(conv.crit < conv.tol|(conv.crit<1&abs(conv.crit - circ.crit) < 1e-09)|i == max.iter) {
+      if(conv.crit < conv.tol | (conv.crit < 1 & abs(conv.crit - circ.crit) < 1e-09) | i == max.iter) {
         if(i == max.iter) {
           print(paste("No convergence within", max.iter, "iterations"))
         }else{
